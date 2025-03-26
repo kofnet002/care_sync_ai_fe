@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Banknote, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/app/components/ui/button";
 import { DatePicker } from "@/app/components/DatePicker";
 import { toast } from "sonner";
+import { doctors } from "../data/doctors";
+import { useRouter } from "next/navigation";
 interface Doctor {
   id: number;
   name: string;
@@ -25,12 +27,16 @@ interface DoctorCardProps {
 }
 
 const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
+  const router = useRouter();
+
   const handleBookAppointment = () => {
     toast.info("Feature coming soon");
   };
+
   const handleViewProfile = () => {
-    toast.info("Feature coming soon");
+    router.push(`/doctor-appointment-booking/${doctor.id}`);
   };
+
   return (
     <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
       <div className="w-full md:w-48 h-48">
@@ -157,7 +163,7 @@ const SearchFilter: React.FC = () => {
             {[
               "Dentist",
               "Cardiology",
-              "Neurology",
+              "Brain Surgery",
               "Orthopedic",
               "Urology",
             ].map((specialist) => (
@@ -181,167 +187,8 @@ const SearchFilter: React.FC = () => {
 };
 
 const DoctorSearch: React.FC = () => {
-  const [doctors] = useState<Doctor[]>([
-    {
-      id: 1,
-      name: "Dr. Ruby Perrin",
-      title: "MDS - Periodontology and Oral Implantology, BDS",
-      specialization: "Urology",
-      location: "Florida, USA",
-      rating: 4,
-      reviews: 17,
-      priceRange: "$300 - $1000",
-      image: "/doctors/doctor-01.jpg",
-      specializationImage: "/specialities/specialities-01.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 2,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Brain Surgery",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-02.jpg",
-      specializationImage: "/specialities/specialities-02.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 3,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Orthopaedics",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-03.jpg",
-      specializationImage: "/specialities/specialities-03.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 4,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Cardiology",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-04.jpg",
-      specializationImage: "/specialities/specialities-04.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 5,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Dentist",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-05.jpg",
-      specializationImage: "/specialities/specialities-05.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 6,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Dentist",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-06.jpg",
-      specializationImage: "/specialities/specialities-05.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 7,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Urology",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-07.jpg",
-      specializationImage: "/specialities/specialities-01.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 8,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Brain Surgery",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-08.jpg",
-      specializationImage: "/specialities/specialities-02.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 9,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Brain Surgery",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-09.jpg",
-      specializationImage: "/specialities/specialities-03.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 10,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Urology",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-10.jpg",
-      specializationImage: "/specialities/specialities-04.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 11,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Orthopaedics",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-11.jpg",
-      specializationImage: "/specialities/specialities-05.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-    {
-      id: 12,
-      name: "Dr. Darren Elder",
-      title: "BDS, MDS - Oral & Maxillofacial Surgery",
-      specialization: "Cardiology",
-      location: "Newyork, USA",
-      rating: 5,
-      reviews: 35,
-      priceRange: "$50 - $300",
-      image: "/doctors/doctor-12.jpg",
-      specializationImage: "/specialities/specialities-01.png",
-      services: ["Dental Fillings", "Whitening"],
-    },
-  ]);
-
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto">
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="lg:w-1/4">
           <SearchFilter />
