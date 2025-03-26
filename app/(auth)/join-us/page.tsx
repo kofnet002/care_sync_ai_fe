@@ -100,7 +100,8 @@ const Page = () => {
     isLoginSubmit: boolean
   ) => {
     setIsLoading(true);
-
+    router.push("/doctor-appointment-booking");
+    return;
     try {
       const endpoint = isLoginSubmit ? "/api/auth/login" : "/api/auth/register";
 
@@ -174,20 +175,22 @@ const Page = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col items-center justify-center h-[80vh] p-4 w-full">
+      <div className="flex flex-col items-center justify-center p-4 w-full bg-white h-screen mt-32">
         {/* Form */}
-        <h1 className="text-2xl font-bold">
+        <h1 className="md:text-2xl font-bold text-center text-xl mb-5 text-[#3e888c]">
           Be a part of the CareSync AI family
         </h1>
 
         <div className="flex items-center mx-auto justify-center w-full gap-2">
-          <Image
-            src="/login-banner.png"
-            alt="Login Banner"
-            width={500}
-            height={0}
-            className="w-[30%]"
-          />
+          <div className="hidden md:flex w-[30%]">
+            <Image
+              src="/login-banner.png"
+              alt="Login Banner"
+              width={500}
+              height={0}
+              className="w-full"
+            />
+          </div>
           <form
             className="w-full max-w-md flex flex-col gap-4"
             onSubmit={formik.handleSubmit}
