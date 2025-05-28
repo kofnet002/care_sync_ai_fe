@@ -163,186 +163,183 @@ const Page = () => {
   const formik = isLogin ? loginFormik : registrationFormik;
 
   // Redirect if already logged in
-  useEffect(() => {
-    const access = Cookies.get("access_token");
-    if (access) {
-      router.push("/dashboard");
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   const access = Cookies.get("access_token");
+  //   if (access) {
+  //     router.push("/dashboard");
+  //   }
+  // }, [router]);
 
   const toggleAuthMode = () => setIsLogin(!isLogin);
 
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col items-center justify-center p-4 w-full bg-white h-screen mt-32">
-        {/* Form */}
-        <h1 className="md:text-2xl font-bold text-center text-xl mb-5 text-[#3e888c]">
-          Be a part of the CareSync AI family
-        </h1>
-
-        <div className="flex items-center mx-auto justify-center w-full gap-2">
-          <div className="hidden md:flex w-[30%]">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#e0f7fa] to-[#f1f8f9] px-4 py-10">
+        <div className="bg-white shadow-2xl rounded-3xl overflow-hidden flex flex-col md:flex-row w-full max-w-5xl transition-all duration-300 ease-in-out">
+          {/* Left Banner */}
+          <div className="hidden md:block md:w-1/2 bg-[#3e888c] p-8">
             <Image
               src="/login-banner.png"
               alt="Login Banner"
-              width={500}
-              height={0}
-              className="w-full"
+              width={600}
+              height={600}
+              className="w-full h-auto object-cover rounded-lg"
             />
           </div>
-          <form
-            className="w-full max-w-md flex flex-col gap-4"
-            onSubmit={formik.handleSubmit}
-            noValidate
-          >
-            {!isLogin && (
-              <>
-                <div className="space-y-2">
+
+          {/* Form Section */}
+          <div className="w-full md:w-1/2 p-8 space-y-6">
+            <h1 className="text-3xl font-extrabold text-[#3e888c] text-center">
+              {isLogin ? "Welcome Back" : "Join CareSync AI"}
+            </h1>
+
+            <form
+              className="flex flex-col gap-5"
+              onSubmit={formik.handleSubmit}
+              noValidate
+            >
+              {!isLogin && (
+                <>
+                  <div>
+                    <Input
+                      id="username"
+                      name="username"
+                      placeholder="Username"
+                      value={registrationFormik.values.username}
+                      onChange={registrationFormik.handleChange}
+                      onBlur={registrationFormik.handleBlur}
+                      aria-invalid={
+                        registrationFormik.touched.username &&
+                        !!registrationFormik.errors.username
+                      }
+                    />
+                    {registrationFormik.touched.username &&
+                      registrationFormik.errors.username && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {registrationFormik.errors.username}
+                        </p>
+                      )}
+                  </div>
+
+                  <div>
+                    <Select
+                      onValueChange={(value) =>
+                        registrationFormik.setFieldValue("userType", value)
+                      }
+                      value={registrationFormik.values.userType}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="User Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="PATIENT">Patient</SelectItem>
+                        <SelectItem value="DOCTOR">Doctor</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {registrationFormik.touched.userType &&
+                      registrationFormik.errors.userType && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {registrationFormik.errors.userType}
+                        </p>
+                      )}
+                  </div>
+                </>
+              )}
+
+              <div>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Email Address"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.email}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <Input
+                  id="password1"
+                  name="password1"
+                  type="password"
+                  placeholder="Password"
+                  value={formik.values.password1}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.password1 && formik.errors.password1 && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.password1}
+                  </p>
+                )}
+              </div>
+
+              {!isLogin && (
+                <div>
                   <Input
-                    id="username"
-                    name="username"
-                    type="text"
-                    placeholder="Username"
-                    value={registrationFormik.values.username}
+                    id="password2"
+                    name="password2"
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={registrationFormik.values.password2}
                     onChange={registrationFormik.handleChange}
                     onBlur={registrationFormik.handleBlur}
-                    aria-invalid={
-                      registrationFormik.touched.username &&
-                      !!registrationFormik.errors.username
-                    }
                   />
-                  {registrationFormik.touched.username &&
-                    registrationFormik.errors.username && (
-                      <p className="text-red-500 text-sm">
-                        {registrationFormik.errors.username}
+                  {registrationFormik.touched.password2 &&
+                    registrationFormik.errors.password2 && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {registrationFormik.errors.password2}
                       </p>
                     )}
                 </div>
+              )}
 
-                <div className="space-y-2">
-                  <Select
-                    onValueChange={(value) =>
-                      registrationFormik.setFieldValue("userType", value)
-                    }
-                    value={registrationFormik.values.userType}
+              {isLogin && (
+                <div className="flex justify-end">
+                  <Link
+                    href="#"
+                    className="text-sm text-blue-500 hover:underline"
                   >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="User Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="PATIENT">Patient</SelectItem>
-                      <SelectItem value="DOCTOR">Doctor</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {registrationFormik.touched.userType &&
-                    registrationFormik.errors.userType && (
-                      <p className="text-red-500 text-sm">
-                        {registrationFormik.errors.userType}
-                      </p>
-                    )}
+                    Forgot Password?
+                  </Link>
                 </div>
-              </>
-            )}
-
-            <div className="space-y-2">
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email Address"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                aria-invalid={formik.touched.email && !!formik.errors.email}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-sm">{formik.errors.email}</p>
               )}
-            </div>
 
-            <div className="space-y-2">
-              <Input
-                id="password1"
-                name="password1"
-                type="password"
-                placeholder="Password"
-                value={formik.values.password1}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                aria-invalid={
-                  formik.touched.password1 && !!formik.errors.password1
-                }
-              />
-              {formik.touched.password1 && formik.errors.password1 && (
-                <p className="text-red-500 text-sm">
-                  {formik.errors.password1}
-                </p>
-              )}
-            </div>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading || !formik.isValid || !formik.dirty}
+              >
+                {isLoading ? (
+                  <LoaderCircle className="w-5 h-5 animate-spin mr-2" />
+                ) : isLogin ? (
+                  "Login"
+                ) : (
+                  "Register"
+                )}
+              </Button>
+            </form>
 
-            {!isLogin && (
-              <div className="space-y-2">
-                <Input
-                  id="password2"
-                  name="password2"
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={registrationFormik.values.password2}
-                  onChange={registrationFormik.handleChange}
-                  onBlur={registrationFormik.handleBlur}
-                  aria-invalid={
-                    registrationFormik.touched.password2 &&
-                    !!registrationFormik.errors.password2
-                  }
-                />
-                {registrationFormik.touched.password2 &&
-                  registrationFormik.errors.password2 && (
-                    <p className="text-red-500 text-sm">
-                      {registrationFormik.errors.password2}
-                    </p>
-                  )}
-              </div>
-            )}
-
-            {isLogin && (
-              <div className="flex items-center justify-end">
-                <Link
-                  href="#"
-                  className="text-gray-100 hover:underline  text-sm"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full mt-2"
-              disabled={isLoading || !formik.isValid || !formik.dirty}
-            >
-              {isLoading ? (
-                <LoaderCircle className="w-5 h-5 animate-spin mr-2" />
-              ) : isLogin ? (
-                "Login"
-              ) : (
-                "Register"
-              )}
-            </Button>
-
-            <p className="text-center text-sm mt-2">
+            <p className="text-center text-sm">
               {isLogin
                 ? "Don't have an account? "
                 : "Already have an account? "}
               <button
                 type="button"
-                className="text-blue-600 hover:underline focus:outline-none"
                 onClick={toggleAuthMode}
+                className="text-blue-600 font-medium hover:underline ml-1"
               >
                 {isLogin ? "Register" : "Login"}
               </button>
             </p>
-          </form>
+          </div>
         </div>
       </div>
     </div>
