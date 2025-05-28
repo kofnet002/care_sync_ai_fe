@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Banknote, MapPin, Star } from "lucide-react";
+import { Banknote, CalendarDays, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/app/components/ui/button";
 import { DatePicker } from "@/app/components/DatePicker";
@@ -110,17 +110,14 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button
-            onClick={handleViewProfile}
-            variant="outline"
-            className="px-6 py-2 rounded-lg"
-          >
+          <Button onClick={handleViewProfile} variant="secondary">
             View Profile
           </Button>
           <Button
             onClick={handleBookAppointment}
-            className="px-6 py-2 text-white rounded-lg"
+            className="bg-[#3e888c] hover:bg-[#2d6b6f] text-white"
           >
+            <CalendarDays size={16} className="mr-2" />
             Book Appointment
           </Button>
         </div>
@@ -194,11 +191,17 @@ const DoctorSearch: React.FC = () => {
           <SearchFilter />
         </div>
         <div className="lg:w-3/4">
-          <div className="space-y-4">
-            {doctors.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} />
-            ))}
-          </div>
+          {doctors.length === 0 ? (
+            <div className="text-center text-gray-500 mt-10">
+              No doctors found for the selected filters.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {doctors.map((doctor) => (
+                <DoctorCard key={doctor.id} doctor={doctor} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

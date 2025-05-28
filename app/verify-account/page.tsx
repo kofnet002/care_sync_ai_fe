@@ -93,55 +93,43 @@ const Page = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-6">
+    <div className="flex min-h-screen items-center justify-center p-6 bg-gray-50">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-xl">
-        <h1 className="mb-6 text-center text-xl font-bold text-gray-800">
+        <h1 className="mb-4 text-center text-2xl font-bold text-[#3e888c]">
           Account Verification
         </h1>
-        <p className="mb-8 text-center text-gray-600 text-sm">
+        <p className="mb-6 text-center text-sm text-gray-600">
           Please enter the 6-digit code sent to your email.
         </p>
 
+        {/* OTP Input */}
         <div className="flex justify-center gap-2">
-          <InputOTP
-            maxLength={6}
-            value={value}
-            onChange={(value) => setValue(value)}
-          >
+          <InputOTP maxLength={6} value={value} onChange={setValue}>
             <InputOTPGroup>
-              <InputOTPSlot
-                index={0}
-                className="h-12 w-12 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#38888c]"
-              />
-              <InputOTPSlot
-                index={1}
-                className="h-12 w-12 mx-2 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#38888c]"
-              />
-              <InputOTPSlot
-                index={2}
-                className="h-12 w-12 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#38888c]"
-              />
+              {[0, 1, 2].map((index) => (
+                <InputOTPSlot
+                  key={index}
+                  index={index}
+                  className="h-12 w-12 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#226466] focus:ring-2 focus:ring-[#3e888c]/50"
+                />
+              ))}
             </InputOTPGroup>
             <InputOTPSeparator className="mx-2 text-gray-400" />
             <InputOTPGroup>
-              <InputOTPSlot
-                index={3}
-                className="h-12 w-12 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#38888c]"
-              />
-              <InputOTPSlot
-                index={4}
-                className="h-12 w-12 mx-2 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#38888c]"
-              />
-              <InputOTPSlot
-                index={5}
-                className="h-12 w-12 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#38888c]"
-              />
+              {[3, 4, 5].map((index) => (
+                <InputOTPSlot
+                  key={index}
+                  index={index}
+                  className="h-12 w-12 rounded-lg border-2 border-[#3e888c] text-lg font-semibold transition-all focus:border-[#226466] focus:ring-2 focus:ring-[#3e888c]/50"
+                />
+              ))}
             </InputOTPGroup>
           </InputOTP>
         </div>
 
+        {/* Button */}
         <Button
-          className="mt-8 w-full rounded-lg"
+          className="mt-8 w-full rounded-lg bg-[#3e888c] text-white hover:bg-[#226466] transition-all duration-300"
           disabled={value.length < 6 || isLoading}
           onClick={verifyAccount}
         >
@@ -152,31 +140,25 @@ const Page = () => {
           )}
         </Button>
 
-        <div className="text-center mt-5">
+        {/* Resend Logic */}
+        <div className="text-center mt-6 text-sm">
           {timeLeft > 0 ? (
             <p className="text-gray-600">
-              {" "}
-              Didn&apos;t receive the code? {timeLeft} seconds
+              Didn’t receive the code? Wait <strong>{timeLeft}s</strong>
             </p>
           ) : (
-            <p
+            <button
+              type="button"
               onClick={() => {
                 setTimeLeft(60);
                 resendOTP();
               }}
-              className="w-fit text-center mx-auto hover:cursor-pointer rounded-md hover:text-[#3e888c] text-base"
+              className="text-[#3e888c] hover:underline font-medium transition"
             >
               Resend OTP
-            </p>
+            </button>
           )}
         </div>
-
-        {/* <p className="mt-4 text-center text-sm text-gray-500">
-          Didn&apos;t receive the code?{" "}
-          <a href="#" className="text-blue-600 hover:underline">
-            Resend
-          </a>
-        </p> */}
       </div>
     </div>
   );
